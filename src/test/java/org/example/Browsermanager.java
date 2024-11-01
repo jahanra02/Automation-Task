@@ -1,7 +1,11 @@
 package org.example;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WindowType;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Browsermanager extends BrowserSetup {
     @Test
@@ -35,9 +39,40 @@ public class Browsermanager extends BrowserSetup {
         System.out.println(browser.getTitle());
         System.out.println(browser.getCurrentUrl());
         Thread.sleep(2000);
+        browser.switchTo().newWindow(WindowType.WINDOW);
+        browser.navigate().to("http://www.facebook.com");
+        System.out.println(browser.getTitle());
+        System.out.println(browser.getCurrentUrl());
+        Thread.sleep(2000);
+
         browser.close();
 
 
+
+    }
+    @Test
+    public void testDifferentWindow( ) throws InterruptedException {
+        browser.get("https://rahulshettyacademy.com/AutomationPractice/");
+        getElement(By.xpath("//a[@id='opentab']")).click();
+        System.out.println(browser.getTitle());
+        System.out.println(browser.getCurrentUrl());
+
+        Thread.sleep(10000);
+        System.out.println(browser.getWindowHandle());
+
+        List<String> handles = new ArrayList<>( browser.getWindowHandles());
+
+        for (String handle: handles){
+            System.out.println(handle);
+        }
+
+        browser.switchTo().window(handles.get(1));
+        System.out.println(browser.getTitle());
+        System.out.println(browser.getCurrentUrl());
+        System.out.println(getElement(By.cssSelector("div[class='support float-left'] span")).getText());
+        browser.switchTo().window(handles.get(0));
+        System.out.println(browser.getTitle());
+        System.out.println(browser.getCurrentUrl());
 
     }
 }
